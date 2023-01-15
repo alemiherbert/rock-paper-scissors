@@ -5,35 +5,102 @@ function getComputerChoice() {
 }
 
 function playRound(playerChoice, computerChoice) {
-    playerChoice = playerChoice.toLowerCase();
+    playerChoice = playerChoice.toLowerCase() || playerChoice;
     if (playerChoice == "rock") {
-        if (computerChoice == "paper")
-            return ("The computer wins! Paper covers Rock");
-        else if (computerChoice == "scissors")
-            return ("You win! Rock blunts Scissors");
+        if (computerChoice == "paper") {
+            computerCount++;
+            return {
+                message: "The computer wins! Paper covers Rock",
+                playerCount: playerCount,
+                computerCount: computerCount
+            }
+        }
+        else if (computerChoice == "scissors") {
+            playerCount++;
+            return {
+                message: "You win! Rock blunts Scissors",
+                playerCount: playerCount,
+                computerCount: computerCount
+            }
+        }
         else
-            return ("It's a draw!")
+            return {
+                message: "It's a draw!",
+                playerCount: playerCount,
+                computerCount: computerCount
+            }
     }
     if (playerChoice == "paper") {
         if (computerChoice == "paper")
-            return ("It's a draw!");
-        else if (computerChoice == "scissors")
-            return ("The computer wins! Scissors cut Paper");
-        else
-            return ("You win! Paper covers Rock");
+            return {
+                message: "It's a draw!",
+                playerCount: playerCount,
+                computerCount: computerCount
+            };
+        else if (computerChoice == "scissors") {
+            computerCount++;
+            return {
+                message: "The computer wins! Scissors cut Paper",
+                playerCount: playerCount,
+                computerCount: computerCount
+            }
+        }
+        else {
+            playerCount++;
+            return {
+                message: "You win! Paper covers Rock",
+                playerCount: playerCount,
+                computerCount: computerCount
+            }
+        }
     }
     if (playerChoice == "scissors") {
-        if (computerChoice == "paper")
-            return ("You win! Scissors cut Paper");
+        if (computerChoice == "paper") {
+            playerCount++;
+            return {
+                message: "You win! Scissors cut Paper",
+                playerCount: playerCount,
+                computerCount: computerCount
+            };
+        }
         else if (computerChoice == "scissors")
-            return ("It's a draw!");
-        else
-            return ("The computer wins! Rock blunts Scissors");
-    }
+            return {
+                message: "It's a draw!",
+                playerCount: playerCount,
+                computerCount: computerCount
+            };
+        else {
+            computerCount++;
+            return {
+                message: "The computer wins! Rock blunts Scissors",
+                playerCount: playerCount,
+                computerCount: computerCount
+            };
+        }
+    } else
+        return {
+            message: `The token ${playerChoice} is not valid.`,
+            playerCount: playerCount,
+            computerCount: computerCount
+        };
 }
 
-for (let i = 0; i < 5; i++) {
-    let playerChoice = prompt("Enter your choice: ")
-    result = playRound(playerChoice, getComputerChoice());
-    console.log(`Round ${i + 1}: ${result}`)
-}
+const displayBox = document.getElementById("display");
+const inputBox = document.getElementById("input");
+const scoreBox = document.getElementById("score");
+let playerCount = 0, computerCount = 0;
+
+inputBox.addEventListener("keydown", (event) => {
+    if (event.isComposing) {
+        return;
+    }
+    if (event.key == "Enter") {
+        let playerChoice = inputBox.value;
+        let result = playRound(playerChoice, getComputerChoice(), playerCount, computerCount);
+        let score = `Player: ${String(result.playerCount).padStart(2, "0")} | Computer: ${String(result.computerCount).padStart(2, "0")}`
+        scoreBox.innerText = (score)
+        displayBox.innerText = (result.message)
+        inputBox.value = "";
+        return playerChoice
+    }
+})
