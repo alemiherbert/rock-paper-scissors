@@ -5,6 +5,9 @@ body {
     height: 100%;
     font-family: "JetBrains Mono", monospace;
 }
+body{
+    background: linear-gradient(90deg, indianred, 140px, transparent, 40px, pink);
+}
 
 main {
     height: 100%;
@@ -19,8 +22,11 @@ main {
 }
 
 .container {
-    border: 1px solid;
+    border: 1px solid indianred;
     padding: 16px;
+    text-align: center;
+    box-shadow: 1px 1px 10px 2px rgba(0, 0, 0, 0.2);
+    background-color: antiquewhite;
 }
 
 .display {
@@ -36,10 +42,11 @@ main {
 
 input[type=text] {
     flex-grow: 1;
+    background-color: inherit;
 }
 
 input[type=text]:focus {
-    border: 1px solid #666;
+    border: 1px solid #333;
 }
 
 input[type=text] {
